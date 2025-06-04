@@ -1,0 +1,225 @@
+﻿@using SellingMovieTickets.Areas.Admin.Models.ViewModels.Movie
+@using SellingMovieTickets.Models.Entities
+<link href="~/assetsadmin/styles/image_index.css" rel="stylesheet" />
+
+@model CreateMovie
+@{
+    ViewData["Title"] = "Create Movie";
+}
+
+@section naviheader {
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="HomeDashboard" asp-action="Index" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="Movie" asp-action="Index" class="nav-link">Phim</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Thêm mới</a>
+        </li>
+    </ul>
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Thêm mới phim</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Phim</a></li>
+                    <li class="breadcrumb-item active">Thêm mới</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thông tin thêm mới phim</h3>
+            <div class="card-body">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="bs-stepper-content">
+                        <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
+                            <div class="form-group">
+                                <label></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="Name">Tên phim</label>
+                                <input asp-for="Name" class="form-control" placeholder="Tên phim" title="Name" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="Description">Mô tả phim</label>
+                                <textarea asp-for="Description" class="form-control" placeholder="Mô tả phim" title="Mô tả phim"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="StartDate">Chọn ngày phát hành</label>
+                                <div class="d-flex">
+                                    <input type="text" id="selectedDateDisplay" class="form-control" placeholder="Ngày đã chọn" readonly style="margin-left: 10px;" />
+                                    <input asp-for="ReleaseDate" type="date" id="datePicker" class="form-control" style="display: inline-block; width: 48px;" />
+                                </div>
+                                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="Duration">Thời lượng</label>
+                                <input asp-for="Duration" class="form-control" placeholder="Thời lượng" title="Duration" />
+                                <span asp-validation-for="Duration" class="text-danger"></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="SelectedCategories">Chọn thể loại</label>
+                                        <select asp-for="SelectedCategories" asp-items="Model.MovieCategoryList" class="form-control" multiple="multiple">
+                                        </select>
+                                        <span asp-validation-for="SelectedCategories" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-group">
+                                        <label for="SelectedMovieLanguageFormat">Chọn định dạng ngôn ngữ phim</label>
+                                        <select asp-for="SelectedMovieLanguageFormat" asp-items="Model.MovieLanguageFormats" class="form-control">
+                                            <option value="">--Chọn định dạng ngôn ngữ phim--</option>
+                                        </select>
+                                        <span asp-validation-for="SelectedMovieLanguageFormat" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="SelectedMovieFormat">Chọn định dạng phim</label>
+                                        <select asp-for="SelectedMovieFormat" asp-items="Model.MovieFormats" class="form-control">
+                                            <option value="">--Chọn định dạng phim--</option>
+                                        </select>
+                                        <span asp-validation-for="SelectedMovieFormat" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="SelectedStatusMovie">Chọn trạng thái phim</label>
+                                        <select asp-for="SelectedStatusMovie" asp-items="Model.StatusMovies" class="form-control">
+                                            <option value="">--Chọn trạng thái phim--</option>
+                                        </select>
+                                        <span asp-validation-for="SelectedStatusMovie" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="Origin">Xuất xứ</label>
+                                        <input asp-for="Origin" class="form-control" placeholder="Xuất xứ" title="Origin" />
+                                        <span asp-validation-for="Origin" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="Price">Giá vé</label>
+                                        <input value="0" type="text" name="demoPrice" id="demoPrice" class="auto form-control" data-a-dec="," data-a-sep="." placeholder="Giá" title="Price" />
+                                        <input hidden asp-for="Price" id="Price" class="Price" name="Price" />
+                                        <span asp-validation-for="Price" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Director">Tên đạo diễn</label>
+                                <input asp-for="Director" class="form-control" placeholder="Tên đạo diễn" title="Director" />
+                                <span asp-validation-for="Director" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="Actor">Tên diễn viên</label>
+                                <input asp-for="Actor" class="form-control" placeholder="Tên diễn viên" title="Actor" />
+                                <span asp-validation-for="Actor" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="TrailerUrl">Link Trailer</label>
+                                <input asp-for="TrailerUrl" class="form-control" placeholder="Đường dẫn Trailer" title="TrailerUrl" />
+                                <span asp-validation-for="TrailerUrl" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ImageUpload">Hình ảnh</label>
+                                <input asp-for="ImageUpload" class="form-control-file" title="Tải lên hình ảnh" />
+                                <span asp-validation-for="ImageUpload" class="text-danger"></span>
+                                <img id="imgpreview" class="pt-2 style_imageAdmin" />
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="Status">Status</label>
+                                        <select asp-for="Status" class="form-control">
+                                            <option value="Show">Hiển thị</option>
+                                            <option value="Hidden">Ẩn</option>
+                                        </select>
+                                        <span asp-validation-for="Status" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" asp-for="IsOutstanding" class="custom-control-input" id="IsOutstandingCheckbox" placeholder="" title="" />
+                                            <label for="IsOutstandingCheckbox" class="custom-control-label">Phim nổi bật</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <a asp-action="Index" class="btn btn-danger">Quay lại</a>
+                                <button class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</section>
+
+@section Scripts {
+    <script>
+        CKEDITOR.replace('Detail');
+        $("#ImageUpload").change(function () {
+            readURL(this);
+        })
+
+        $(document).ready(function () {
+            $('#datePicker').change(function () {
+                var selectedDate = this.value;
+                if (selectedDate) {
+                    var dateParts = selectedDate.split("-");
+                    var formattedDate = dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0];
+                    $('#selectedDateDisplay').val(formattedDate);
+                }
+            });
+
+            $('.auto').autoNumeric('init');
+            $('#demoPrice').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoPrice').autoNumeric('get');
+                $('#Price').val(demoGet);
+                $('#Price').autoNumeric('set', demoGet);
+            });
+
+            $('#demoPriceSale').bind('blur focusout keypress keyup', function () {
+                var demoGet = $('#demoPriceSale').autoNumeric('get');
+                $('#PriceSale').val(demoGet);
+                $('#PriceSale').autoNumeric('set', demoGet);
+            });
+        });
+    </script>
+}
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        toastr.error('@TempData["Error"]');
+    </script>
+}

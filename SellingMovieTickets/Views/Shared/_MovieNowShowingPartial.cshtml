@@ -1,0 +1,19 @@
+﻿@using SellingMovieTickets.Areas.Admin.Models.ViewModels.Movie
+@model IEnumerable<MovieViewModel>
+
+@if (Model != null && Model.Any())
+{
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3 col-6 movie-item">
+            <img src="@item.Image" alt="Movie Image">
+            <div class="movie-info">
+                <div class="box_account ">
+                    <p>@item.Genres</p>
+                    <p>@item.ReleaseDate.ToString("dd/MM/yyyy")</p>
+                </div>
+                <h6>@item.Name</h6>
+            </div>
+        </div>
+    }
+}

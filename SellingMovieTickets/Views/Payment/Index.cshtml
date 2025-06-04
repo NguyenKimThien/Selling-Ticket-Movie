@@ -1,0 +1,326 @@
+﻿<link href="~/css/payment.css" rel="stylesheet" />
+<link href="~/css/common.css" rel="stylesheet" />
+
+<div class="container my-5">
+    <div class="row">
+        <div id="loading">
+        </div>
+        <div class="col-md-8">
+            <div class="card seat-info">
+                <h5 class="text-white fz-16">Thông tin phim</h5>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="text-white fz-16">Phim<br><strong class="movieName"></strong></p>
+                        <p class="text-white fz-16">Ngày giờ chiếu<br><strong class="movieTime text-warning"></strong></p>
+                        <p class="text-white fz-16">Định dạng<br><strong class="movieFormat"></strong></p>
+                    </div>
+                    <div class="col-6 text-right">
+                        <p class="text-white fz-16">Ghế<br><strong class="movieSeats"></strong></p>
+                        <p class="text-white fz-16">Phòng chiếu<br><strong class="movieRoom"></strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4 seat-info">
+                <div class="container-title">Đặt hàng sản phẩm</div>
+                <div class="row containerOtherservices">
+                </div>
+            </div>
+
+            <div class="card mt-4 seat-info">
+                <h5 class="text-white fz-16">Thông tin thanh toán</h5>
+                <table class="table table-borderless text-white">
+                    <thead>
+                        <tr class="fz-16">
+                            <th>Danh mục</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-right">Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody">
+                        <tr class="fz-16">
+                            <td class="listSeat">Ghế</td>
+                            <td class="text-center totalTicket"></td>
+                            <td class="text-right totalPrice totalPriceTicket"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card payment-method fz-16">
+                <h5 class="text-white">Phương thức thanh toán</h5>
+                <div>
+                    <input class="payment" type="radio" id="vnpay" name="payment" value="VnPay" checked>
+                    <label for="vnpay"><img src="~/media/image/vnpay.png" alt="VnPay" class="imgPaymentMethod">VnPay</label>
+                </div>
+                <div>
+                    <input class="payment" type="radio" id="vietqr" name="payment" value="vietQr">
+                    <label for="vietqr"><img src="~/media/image/vietqr.jpg" alt="VietQR" class="imgPaymentMethod">VietQR</label>
+                </div>
+                <div>
+                    <input class="payment" type="radio" id="momo" name="payment" value="MoMo">
+                    <label for="momo"><img src="~/media/image/momo.png" alt="MoMo" class="imgPaymentMethod">MoMo</label>
+                </div>
+            </div>
+            <div class="card mt-4 total-info">
+                <h5 class="text-white fz-16">Chi phí</h5>
+                <div class="d-flex justify-content-between cost">
+                    <p class="text-white fz-16">Tiền vé</p>
+                    <p class="text-white totalPriceTicket fz-16"></p>
+                </div>
+                <div class="d-flex justify-content-between cost">
+                    <p class="text-white fz-16">Tiền bỏng/nước</p>
+                    <p class="text-white fz-16 totalPriceService"></p>
+                </div>
+                <div class="d-flex justify-content-between cost">
+                    <p class="text-white fz-16">Giảm giá</p>
+                    <p class="text-white fz-16 totalPricePromotion"></p>
+                </div>
+                <div class="d-flex justify-content-between cost">
+                    <p><strong class="text-white fz-16">Tổng cộng</strong></p>
+                    <p><strong class="text-white totalAmount fz-16"></strong></p>
+                </div>
+                <button href="#" class="btn btn-pay mt-3" id="payButton">Thanh toán</button>
+                <button href="#" class="btn btn-back mt-3" id="BackButton">Quay lại</button>
+
+                <p class="mt-2" style="color: #F97316">Lưu ý: Không mua vé cho trẻ em dưới 13 tuổi đối với các suất chiếu phim kết thúc sau 22h00 và không mua vé cho trẻ em dưới 16 tuổi đối với các suất chiếu phim kết thúc sau 23h00.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            let seats = "";
+            let totalPriceSeats = 0;
+            let totalPriceServices = 0;
+            let otherServices = [];
+            let productIdCLick = 0;
+            let PaymentInfo = {
+                SeatNames: "",
+                ShowTimeId: 0,
+                PromotionId: null,
+                PaymentType: "",
+                ConcessionAmount: 0,
+                DiscountAmount: 0,
+                PaymentAmount: 0,
+                OrderSeats: [],
+                OtherServices: []
+            };
+
+            const movieBooking = JSON.parse(localStorage.getItem('state'));
+            $(document).ready(function () {
+                if (movieBooking != null) {
+                    init();
+                    console.log(movieBooking)
+                }
+
+                $(document).on('click', '.product-card', function () {
+                    const productIdCLick = $(this).find('.productId').val();
+                    const productName = $(this).find('.product-name').text();
+                    const productPrice = parseInt($(this).find('.product-price').text().replace('Giá: ', '').replace('.000đ', ''));
+
+                    if ($(this).hasClass('selected-border')) {
+                        // Nếu sp đã được chọn, gỡ class và xóa hàng tương ứng trong bảng
+                        $(this).removeClass('selected-border');
+                        $('.tbody').find(`tr[data-id="${productIdCLick}"]`).remove();
+                        console.log(productIdCLick)
+                        updateOtherServices("remove", parseInt(productIdCLick));
+                    } else {
+                        // Nếu sp chưa được chọn, thêm class và thêm hàng mới vào bảng
+                        $(this).addClass('selected-border');
+                        updateOtherServices("changeQuantity", parseInt(productIdCLick), 1);
+                        const newRow = `
+                                                                                                                                        <tr class="fz-16 rowItemOtherService" data-id="${productIdCLick}">
+                                                                                                                                            <td class="name">${productName}</td>
+                                                                                                                                            <td class="text-center">
+                                                                                                                                                <button class="btn btn-sm btn-outline-secondary decrease-qty" data-id="${productIdCLick}">-</button>
+                                                                                                                                                <span class="count" data-id="${productIdCLick}">1</span>
+                                                                                                                                                <button class="btn btn-sm btn-outline-secondary increase-qty" data-id="${productIdCLick}">+</button>
+                                                                                                                                            </td>
+                                                                                                                                            <td class="text-right totalPrice" data-id="${productIdCLick}" data-price="${productPrice * 1000}">${(productPrice * 1000).toLocaleString()}đ</td>
+                                                                                                                                        </tr>`;
+                        $('.tbody').append(newRow);
+                    }
+                });
+
+                // tăng số lượng
+                $(document).on('click', '.increase-qty', function () {
+                    const productId = $(this).data('id');
+                    const countSpan = $(`.count[data-id="${productId}"]`);
+                    let quantity = parseInt(countSpan.text());
+                    quantity++;
+                    countSpan.text(quantity);
+                    updateOtherServices("changeQuantity", productId, quantity);
+                    const pricePerUnit = parseInt($(`.totalPrice[data-price][data-id="${productId}"]`).data('price'));
+                    $(`.totalPrice[data-id="${productId}"]`).text((pricePerUnit * quantity).toLocaleString() + ' đ');
+                });
+
+                // giảm số lượng
+                $(document).on('click', '.decrease-qty', function () {
+                    const productId = $(this).data('id');
+                    const countSpan = $(`.count[data-id="${productId}"]`);
+                    let quantity = parseInt(countSpan.text());
+                    quantity--;
+                    updateOtherServices("changeQuantity", productId, quantity);
+
+                    if (quantity == 0) {
+                        $('.tbody').find(`tr[data-id="${productId}"]`).remove();
+                        $(`.product-card[data-id="${productId}"]`).removeClass('selected-border');
+                        updateOtherServices("remove", productId);
+                    }
+                    countSpan.text(quantity);
+
+                    const pricePerUnit = parseInt($(`.totalPrice[data-price][data-id="${productId}"]`).data('price'));
+                    $(`.totalPrice[data-id="${productId}"]`).text((pricePerUnit * quantity).toLocaleString() + ' đ');
+                });
+            });
+
+            function init() {
+                getSeats(movieBooking.items);
+                getOtherService();
+
+                PaymentInfo.PaymentAmount = totalPriceSeats;
+                PaymentInfo.SeatNames = seats;
+                PaymentInfo.ShowTimeId = movieBooking.ShowTimeId;
+                PaymentInfo.OrderSeats = movieBooking.items.map(item => ({
+                    Id: item.idSeat,
+                    SeatName: item.seatName,
+                    Price: item.seatPrice
+                }))
+
+                $(".movieName").text(movieBooking.filmName);
+                $(".movieTime").text(changeMovieTime(movieBooking.time));
+                $(".movieFormat").text(movieBooking.movieFormat);
+                $(".movieSeats").text(seats);
+                $(".movieRoom").text(movieBooking.roomName);
+                $(".listSeat").text("Ghế " + "(" + seats + ")");
+                $(".totalTicket").text(movieBooking.items.length);
+                $(".totalPriceTicket").text(`${(totalPriceSeats * 1000).toLocaleString()}đ`);
+            }
+
+            // Chuyển đổi thời gian giờ chiếu
+            function changeMovieTime(inputDate) {
+                const date = new Date(inputDate);
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear();
+                const formattedDate = `${hours}:${minutes} - ${day}/${month}/${year}`;
+                return formattedDate;
+            }
+
+            // Lấy danh sách ghế chọn
+            function getSeats(listSeat) {
+                let seatNames = [];
+                listSeat.forEach(item => {
+                    totalPriceSeats += item.seatPrice;
+                    seatNames.push(item.seatName);
+                });
+                seats = seatNames.join(", ");
+            }
+
+            // Lấy ds dịch vụ
+            function getOtherService() {
+                $.ajax({
+                    url: '@Url.Action("GetListOtherServices", "OtherServices")',
+                    type: 'GET',
+                    success: function (data) {
+                        otherServices = data;
+                        $('.containerOtherservices').empty();
+                        data.forEach(service => {
+                            const serviceHtml = `
+                                                                                                                                                                                                                    <div class="col-md-3 col-sm-6 mb-4">
+                                                                                                                                                                                                                            <div class="product-card" data-id="${service.id}">
+                                                                                                                                                                                                                            <input hidden class="productId" value="${service.id}" />
+                                                                                                                                                                                                                            <img src="${service.image}" alt="${service.Name}">
+                                                                                                                                                                                                                            <div class="product-info">
+                                                                                                                                                                                                                                        <div class="product-name">${service.name}</div>
+                                                                                                                                                                                                                                <div class="product-price">Giá: ${(service.price * 1000).toLocaleString()}đ</div>
+                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                `;
+                            $('.containerOtherservices').append(serviceHtml);
+                        });
+                    },
+                    error: function () {
+                        console.log("Error loading otherServices");
+                    }
+                });
+            }
+
+            // Lọc lấy ttin dịch vụ
+            function filterOtherServices(id) {
+                return otherServices.find(item => item.id === id);
+            }
+
+            // Cập nhật dịch vụ
+            function updateOtherServices(status, serviceId, quantity) {
+                const existingServiceIndex = PaymentInfo.OtherServices.findIndex(service => service.Id === serviceId);
+                if (status == "changeQuantity") {
+                    if (existingServiceIndex === -1) {
+                        PaymentInfo.OtherServices.push({ Id: serviceId, Quantity: quantity });
+                    } else {
+                        PaymentInfo.OtherServices[existingServiceIndex].Quantity = quantity;
+                    }
+                } else {
+                    PaymentInfo.OtherServices.splice(existingServiceIndex, 1);
+                }
+                CalculationOfServiceMoney();
+            }
+
+            function CalculationOfServiceMoney() {
+                PaymentInfo.ConcessionAmount = 0;
+                PaymentInfo.OtherServices.forEach(item => {
+                    let service = filterOtherServices(item.Id);
+                    PaymentInfo.ConcessionAmount += service.price * item.Quantity;
+                })
+                $('.totalPriceService').text((PaymentInfo.ConcessionAmount * 1000).toLocaleString() + "đ");
+                $('.totalAmount').text(((PaymentInfo.ConcessionAmount + totalPriceSeats) * 1000).toLocaleString() + "đ");
+                PaymentInfo.ConcessionAmount = PaymentInfo.ConcessionAmount;
+                PaymentInfo.PaymentAmount = PaymentInfo.ConcessionAmount + totalPriceSeats;
+            }
+
+            $('#payButton').on('click', function () {
+                $('#loading').html('<div id="loadingOverlay" class="loading-overlay"><div class="spinner"></div></div>').fadeIn();
+
+                const selectedPayment = $('input[name="payment"]:checked').val();
+                PaymentInfo.PaymentType = selectedPayment;
+                console.log(PaymentInfo)
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Checkout", "Payment")',
+                    contentType: 'application/json',
+                    data: JSON.stringify(PaymentInfo),
+                    success: function (response) {
+                        $('#loading').fadeOut(function () {
+                            $(this).empty();
+                        });
+                        if (response.status == "Success") {
+                            window.location.href = response.redirectUrl;
+                        } else if (response.status == "Fail") {
+                            alert("Chỗ ngồi đã có người đặt.");
+                            window.location.href = response.redirectUrl;
+                        } else {
+                            $('#loading').fadeOut();
+                            alert('Thanh toán thất bại.');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $('#loading').fadeOut(function () {
+                            $(this).empty();
+                        });
+                        alert('Có lỗi xảy ra khi thanh toán.');
+                    }
+                });
+            });
+        });
+    </script>
+}
+

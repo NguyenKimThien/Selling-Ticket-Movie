@@ -1,0 +1,192 @@
+﻿@using SellingMovieTickets.Models.Entities
+<link href="~/css/account_management.css" rel="stylesheet" />
+<link href="~/css/common.css" rel="stylesheet" />
+@model AppUserModel
+
+<div class="container">
+    <div class="form-container">
+        <h4 class="d-flex justify-content-center text-white mt-4 pt-20">Thông tin cá nhân</h4>
+        <ul class="nav nav-pills justify-content-center mb-4 mt-4 p-20">
+            <div id="myAccountTab" class="nav-link active">Tài khoản của tôi</div>
+            <div id="historyTicketsTab" class="nav-link">Lịch sử mua vé</div>
+            <div id="rewardHistoryTab" class="nav-link">Lịch sử điểm thưởng</div>
+        </ul>
+
+        <div id="myAccount" class="table-container active">
+            <form asp-action="EditProfile" asp-controller="CustomerManagement" method="post" class="p-40 tableInfo">
+                <div class="form-row">
+                    <input hidden asp-for="@Model.Id" />
+                    <div class="form-group col-md-6">
+                        <label for="lastName">Họ <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="lastName" name="LastName" value="@Model.LastName" placeholder="Họ">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="firstName">Tên <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="firstName" name="FirstName" value="@Model.FirstName" placeholder="Tên">
+                    </div>
+                </div>
+                <div class="form-row mt-3">
+                    <div class="form-group col-md-6">
+                        <label for="phoneNumber">Số điện thoại <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="phoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" placeholder="Số điện thoại">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" class="form-control" id="address" name="Address" value="@Model.Address" placeholder="Địa chỉ">
+                    </div>
+                </div>
+                <div class="form-row mt-3">
+                    <div class="form-group col-md-6">
+                        <label for="username">Tên đăng nhập</label>
+                        <input type="text" class="form-control" id="username" name="Username" value="@Model.UserName" placeholder="Tên đăng nhập" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="Email" value="@Model.Email" placeholder="Email" readonly>
+                    </div>
+                </div>
+                <div class="form-row justify-content-end mt-4 mb-4">
+                    @*  <form asp-action="SendEmailChangePass" asp-controller="Account">
+                    <button class="btn btn-secondary-custom btn-custom"> Đổi mật khẩu</button>
+                    </form> *@
+                    @* <button type="button" class="btn btn-secondary-custom btn-custom">Đổi mật khẩu</button> *@
+                    <button type="button" id="btnChangePassword" class="btn btn-secondary-custom btn-custom">Đổi mật khẩu</button>
+                    <button type="submit" class="btn btn-save btn-custom ml-2">Lưu thông tin</button>
+                </div>
+            </form>
+           @*  <form asp-action="SendEmailChangePass" asp-controller="Account">
+                <button class="btn btn-secondary-custom btn-custom"> Đổi mật khẩu</button>
+            </form> *@
+        </div>
+
+        <div id="historyTickets" class="table-container">
+            <div class="tableHistoryTickets">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>Ngày giao dịch</th>
+                            <th>Tên phim</th>
+                            <th>Số vé</th>
+                            <th>Số tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4" class="no-data">Không có dữ liệu</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="rewardHistory" class="table-container">
+            <div class="tableRewardHistorys">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>Ngày giao dịch</th>
+                            <th>Loại giao dịch</th>
+                            <th>Tên giao dịch</th>
+                            <th>Số điểm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4" class="no-data">Không có dữ liệu</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".nav .nav-link").on("click", function () {
+                $(".nav .nav-link").removeClass("active");
+                $(".table-container").removeClass("active");
+                $(this).addClass("active");
+                const containerId = $(this).attr("id").replace("Tab", "");
+                renderTable(containerId)
+
+                $("#" + containerId).addClass("active");
+            });
+
+            $('#btnChangePassword').on('click', function () {
+                $.ajax({
+                    url: '@Url.Action("SendEmailChangePass", "Account")',
+                    type: 'POST',
+                    success: function (response) {
+                    },
+                    error: function (xhr) {
+                        alert('Có lỗi xảy ra: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+
+        function renderTable(nameTable) {
+            if (nameTable == "historyTickets") {
+                $.ajax({
+                    url: '@Url.Action("GetInfoHistoryTicket", "CustomerManagement")',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var tableBody = $('.tableHistoryTickets tbody');
+                        tableBody.empty();
+                        if (data.length > 0) {
+                            $.each(data, function (index, ticket) {
+                                var row = `
+                                    <tr>
+                                        <td>${new Date(ticket.tradingDate).toLocaleDateString('vi-VN')}</td>
+                                        <td>${ticket.nameMovie}</td>
+                                        <td>${ticket.numberOfTickets}</td>
+                                        <td>${(ticket.totalAmount * 1000).toLocaleString('vi-VN')}đ</td>
+                                    </tr>`;
+                                tableBody.append(row);
+                            });
+                        } else {
+                            tableBody.append('<tr><td colspan="4" class="no-data">Không có dữ liệu</td></tr>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Đã xảy ra lỗi khi lấy dữ liệu lịch sử mua vé:", error);
+                    }
+                });
+
+            } else if (nameTable = "rewardHistory") {
+                $.ajax({
+                    url: '@Url.Action("GetInfoHistoryPoint", "CustomerManagement")',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var tableBody = $('.tableRewardHistorys tbody');
+                        tableBody.empty();
+                        if (data.length > 0) {
+                            $.each(data, function (index, point) {
+                                var row = `
+                                            <tr>
+                                                <td>${new Date(point.transactionDate).toLocaleDateString('vi-VN')}</td>
+                                                <td>${point.pointChangeStatus === "BuyTicket" ? "Mua vé" : point.pointChangeStatus === "UsePoint" ? "Sử dụng điểm" : point.pointChangeStatus}</td>
+                                                <td>${point.orderCode}</td>
+                                                <td>${point.pointsChanged}</td>
+                                            </tr>`;
+                                tableBody.append(row);
+                            });
+                        } else {
+                            tableBody.append('<tr><td colspan="4" class="no-data">Không có dữ liệu</td></tr>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Đã xảy ra lỗi khi lấy dữ liệu lịch sử điểm:", error);
+                    }
+                });
+            }
+        }
+
+
+    </script>
+}

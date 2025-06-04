@@ -1,0 +1,64 @@
+﻿body {
+    background-color: #f4f6f9;
+    font-family: 'Arial', sans-serif;
+}
+
+.card {
+    margin: 20px auto;
+    border-radius: 8px;
+    border: 1px solid #dcdcdc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+    border-bottom: 2px solid #0056b3;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+    .table th,
+    .table td {
+        text-align: center;
+        padding: 10px;
+        border: 1px solid #dcdcdc;
+    }
+
+    .table th {
+        background-color: #007bff;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+h4 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #333333;
+}

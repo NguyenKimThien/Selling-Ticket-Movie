@@ -1,0 +1,137 @@
+﻿@using SellingMovieTickets.Models.Entities
+@model NewsModel
+@{
+    ViewData["Title"] = "Create News";
+}
+
+@section naviheader {
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="HomeDashboard" asp-action="Index" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="News" asp-action="Index" class="nav-link">Tin tức</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Thêm mới</a>
+        </li>
+    </ul>
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Thêm mới tin tức</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Tin tức</a></li>
+                    <li class="breadcrumb-item active">Thêm mới</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thông tin thêm mới tin tức</h3>
+            <div class="card-body">
+                <form asp-action="Create" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="bs-stepper-content">
+                        <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
+                            <div class="form-group">
+                                <label></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="Title">Tiêu đề tin tức</label>
+                                <input asp-for="Title" class="form-control" placeholder="Tiêu đề tin tức" title="Title" />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="Description">Mô tả Tin tức</label>
+                                <input asp-for="Description" class="form-control" placeholder="Mô tả Tin tức" title="Mô tả Tin tức"></input>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="Detail">Chi tiết tin tức</label>
+                                <textarea asp-for="Detail" class="form-control" placeholder="Chi tiết tin tức" title="Detail"></textarea>
+                                <span asp-validation-for="Detail" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ImageUpload">Hình ảnh</label>
+                                <input asp-for="ImageUpload" class="form-control-file" title="Tải lên hình ảnh" />
+                                <span asp-validation-for="ImageUpload" class="text-danger"></span>
+                                <img id="imgpreview" class="pt-2" />
+                            </div>
+                            <div class="form-group">
+                                <label for="SeoDescription">SeoDescription</label>
+                                <input asp-for="SeoDescription" class="form-control" placeholder="SeoDescription" />
+                                <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="SeoKeywords">SeoKeywords</label>
+                                <input asp-for="SeoKeywords" class="form-control" placeholder="SeoKeywords" />
+                                <span asp-validation-for="SeoKeywords" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="StartDate">Chọn ngày bắt đầu</label>
+                                <div class="d-flex">
+                                    <input type="text" id="selectedDateDisplay" class="form-control" placeholder="Ngày đã chọn" readonly style="margin-left: 10px;" />
+                                    <input asp-for="StartDate" type="date" id="datePicker" class="form-control" style="display: inline-block; width: 48px;" />
+                                </div>
+                                <span asp-validation-for="StartDate" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="Status">Status</label>
+                                <select asp-for="Status" class="form-control">
+                                    <option value="Show">Hiển thị</option>
+                                    <option value="Hidden">Ẩn</option>
+                                </select>
+                                <span asp-validation-for="Status" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <a asp-action="Index" class="btn btn-danger">Quay lại</a>
+                                <button class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</section>
+
+@section Scripts {
+    <script>
+        CKEDITOR.replace('Detail');
+        $("#ImageUpload").change(function () {
+            readURL(this);
+        })
+
+        $(document).ready(function () {
+            $('#datePicker').change(function () {
+                var selectedDate = this.value;
+                if (selectedDate) {
+                    var dateParts = selectedDate.split("-");
+                    var formattedDate = dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0];
+                    $('#selectedDateDisplay').val(formattedDate);
+                }
+            });
+        });
+    </script>
+}
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        toastr.error('@TempData["Error"]');
+    </script>
+}
+

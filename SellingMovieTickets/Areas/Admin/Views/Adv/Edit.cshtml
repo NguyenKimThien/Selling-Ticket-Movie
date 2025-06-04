@@ -1,0 +1,113 @@
+﻿@using SellingMovieTickets.Models.Entities
+<link href="~/assetsadmin/styles/image_index.css" rel="stylesheet" />
+
+@model AdvModel
+@{
+    ViewData["Title"] = "Update Adv";
+}
+
+@section naviheader {
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="HomeDashboard" asp-action="Index" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="Adv" asp-action="Index" class="nav-link">Quảng cáo</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Cập nhật</a>
+        </li>
+    </ul>
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Cập nhật quảng cáo</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Quảng cáo</a></li>
+                    <li class="breadcrumb-item active">Cập nhật</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thông tin quảng cáo</h3>
+            <div class="card-body">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="bs-stepper-content">
+                        <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
+                            <div class="form-group">
+                                <label></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="Title">Tiêu đề quảng cáo</label>
+                                <input asp-for="Title" class="form-control" placeholder="Tiêu đề quảng cáo" title="Title" />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="Description">Mô tả quảng cáo</label>
+                                <textarea asp-for="Description" class="form-control" placeholder="Mô tả quảng cáo" title="Mô tả Bài viết"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ImageUpload">Hình ảnh</label>
+                                <input asp-for="ImageUpload" class="form-control-file" title="Tải lên hình ảnh" />
+                                <span asp-validation-for="ImageUpload" class="text-danger"></span>
+                                <img id="imageFirst" src="@Model.Image" class="style_imageAdmin">
+                                <img id="imgpreview" class="pt-2 style_imageAdmin" />
+                            </div>
+                            <div class="form-group">
+                                <label for="Link">Link</label>
+                                <input asp-for="Link" class="form-control" placeholder="Link" />
+                                <span asp-validation-for="Link" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="Status">Status</label>
+                                <select asp-for="Status" class="form-control">
+                                    <option value="Show">Hiển thị</option>
+                                    <option value="Hidden">Ẩn</option>
+                                </select>
+                                <span asp-validation-for="Status" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <a asp-action="Index" class="btn btn-danger">Quay lại</a>
+                                <button class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</section>
+
+<script>
+    CKEDITOR.replace('Description');
+</script>
+
+<script>
+    $("#ImageUpload").change(function () {
+        $("#imageFirst").hide();
+        readURL(this);
+    })
+</script>
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        toastr.error('@TempData["Error"]');
+    </script>
+}
+

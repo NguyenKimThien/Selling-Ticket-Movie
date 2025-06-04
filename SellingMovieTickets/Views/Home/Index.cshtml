@@ -1,0 +1,92 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link href="~/css/home_style.css" rel="stylesheet" />
+
+<!-- Slider -->
+<div class="Slider">
+    @await Html.PartialAsync("_SliderPartial")
+</div>
+
+<!-- Movie NowShowing -->
+<div class="row movieNowShowing">
+    <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="section-title d-flex align-items-center">
+                <div class="rounded-full bg-red-500 w-4 h-4 mr-1"></div>Phim đang chiếu
+            </div>
+            <a href="#" class="section-link">Xem tất cả</a>
+        </div>
+        <div class="row movieNowShowingItem">
+            @await Html.PartialAsync("_MovieNowShowingPartial")
+        </div>
+    </div>
+
+    <!-- Promotion Section -->
+    <div class="col-md-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="section-title">Khuyến mãi</h2>
+            <a href="#" class="section-link">Xem tất cả</a>
+        </div>
+        <div class="promotion-item">
+            <img src="~/media/image/khuyenmai2.jpg" alt="Promotion 1">
+        </div>
+        <div class="promotion-item">
+            <img src="~/media/image/khuyenmai2.jpg" alt="Promotion 2">
+        </div>
+    </div>
+</div>
+
+@* Movie CommingSoon *@
+<div class="row movieNowShowing">
+    <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="section-title d-flex align-items-center">
+                <div class="rounded-full bg-red-500 w-4 h-4 mr-1"></div>Phim sắp chiếu
+            </div>
+            <a href="#" class="section-link">Xem tất cả</a>
+        </div>
+        <div class="row movieCommingSoonItem">
+            @await Html.PartialAsync("_MovieCommingSoonPartial")
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @* <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script> *@
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("MenuSlider", "Menu")',
+                type: 'GET',
+                success: function (data) {
+                    $('.Slider').prepend(data);
+                },
+                error: function () {
+                    console.log("Error loading slider menu");
+                }
+            });
+
+            $.ajax({
+                url: '@Url.Action("MovieNowShowing", "Movie")',
+                type: 'GET',
+                success: function (data) {
+                    $('.movieNowShowingItem').prepend(data);
+                },
+                error: function () {
+                    console.log("Error loading movieNowShowing");
+                }
+            });
+
+            $.ajax({
+                url: '@Url.Action("MovieCommingSoon", "Movie")',
+                type: 'GET',
+                success: function (data) {
+                    $('.movieCommingSoonItem').prepend(data);
+                },
+                error: function () {
+                    console.log("Error loading MovieCommingSoon");
+                }
+            });
+        });
+    </script>
+}

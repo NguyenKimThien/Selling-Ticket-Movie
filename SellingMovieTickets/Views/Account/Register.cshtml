@@ -1,0 +1,44 @@
+﻿@using SellingMovieTickets.Models.ViewModels.Users
+@model RegisterAccount
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<section style="margin-top: 180px">
+    <div class="row" style="justify-content: center">
+        <div class="col-sm-8 col-sm-offset-1">
+            <div class="login-form">
+                <h2>Đăng ký</h2>
+                <form asp-action="Register" asp-controller="Account" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="bs-stepper-content">
+                        <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
+                            <div class="input-group input-group-outline mb-3">
+                                <label>Tên đăng nhập</label>
+                                <input asp-for="Username" class="form-control text-black" />
+                                <span asp-validation-for="Username" class="text-danger" />
+                            </div>
+                            <div class="input-group input-group-outline mb-3">
+                                <label>Email</label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger" />
+                            </div>
+                            <div class="input-group input-group-outline mb-3">
+                                <label>Mật khẩu</label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger" />
+                            </div>
+                            <button class="btn btn-default mt-4"> Đăng ký</button>
+                            <div class="box_optionRegister">
+                                <p class="text-white">
+                                    Bạn đã có tài khoản?
+                                </p>
+                                <a asp-action="Login" asp-controller="Account" class="optionRegisterItem"> Đăng nhập ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

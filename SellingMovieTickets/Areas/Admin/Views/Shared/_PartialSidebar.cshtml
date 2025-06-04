@@ -1,0 +1,142 @@
+﻿@using SellingMovieTickets.Models.Enum
+
+<div class="sidebar">
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+            @if (User.Identity?.IsAuthenticated ?? false)
+            {
+                var avatar = User.FindFirst("Avatar")?.Value != null
+                ? $"{User.FindFirst("Avatar")?.Value}" : "";
+                <img src="@avatar" class="img-circle elevation-2" alt="User Image">
+            }
+        </div>
+        <div class="info">
+            @if (User.Identity?.IsAuthenticated ?? false)
+            {
+                var fullName = User.FindFirst(ClaimUserLogin.FullName)?.Value;
+                <a href="#"><i aria-hidden="true"></i>@fullName</a>
+            }
+        </div>
+    </div>
+
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+                <a asp-controller="Category" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-list"></i>
+                    <p>Danh mục</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="News" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-newspaper"></i>
+                    <p>Tin tức</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="Adv" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-ad"></i>
+                    <p>Quảng cáo</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="Promotion" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-tag"></i>
+                    <p>Khuyến mãi</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-box"></i>
+                    <p>
+                        Quản lý phim
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a asp-controller="MovieCategory" asp-action="Index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Thể loại phim</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Movie" asp-action="Index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Phim</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="CinemaShowTime" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-film"></i>
+                    <p>Suất chiếu</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="Room" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-tag"></i>
+                    <p>Phòng chiếu</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="OtherServices" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-utensils"></i>
+                    <p>Đồ ăn/ đồ uống</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="Order" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-receipt"></i>
+                    <p>Hóa đơn</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="Ticket" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-ticket-alt"></i>
+                    <p>Vé xem phim</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="CustomerManagement" asp-action="Index" class="nav-link">
+                    <i class="nav-icon fas fa-star"></i>
+                    <p>Điểm thưởng khách hàng</p>
+                </a>
+            </li>
+            @if (User.Identity?.IsAuthenticated ?? false)
+            {
+                var role = User.FindFirst(ClaimUserLogin.Role)?.Value;
+                @if (role == Role.Admin)
+                {
+                    <li class="nav-item">
+                        <a asp-controller="Role" asp-action="Index" class="nav-link">
+                            <i class="nav-icon fas fa-user-tag"></i>
+                            <p>Vai trò</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Account" asp-action="Index" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>Tài khoản</p>
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var navLinks = document.querySelectorAll('.nav-link');
+        var currentUrl = window.location.href;
+
+        navLinks.forEach(function (link) {
+            if (link.href === currentUrl) {
+                link.classList.add('active');
+            }
+        });
+    });
+</script>
+

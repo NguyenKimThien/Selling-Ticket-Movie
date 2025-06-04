@@ -1,0 +1,16 @@
+﻿.productImageIndex {
+    width: 100px;
+    height: 85px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.style_imageAdmin {
+    object-fit: cover;
+    margin-top: 4px;
+}
+
+.style_imageAdDetail {
+    height: 200px;
+    width: 100%;
+}

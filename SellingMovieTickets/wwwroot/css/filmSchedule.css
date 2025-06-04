@@ -1,0 +1,219 @@
+﻿
+/* Index */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1400px;
+    }
+}
+
+.container {
+    margin-top: 125px !important;
+}
+
+.custom-container {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.movie-img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.showtimes .btn-showtime {
+    background-color: #333333;
+    color: #ffffff;
+    margin: 5px 5px 0 0;
+    border: none;
+    padding: 5px 10px;
+}
+
+    .showtimes .btn-showtime:hover {
+        background-color: #ff4d4d;
+    }
+
+.genre-time {
+    font-size: 0.9rem;
+    color: #a6a6a6;
+}
+
+.showtimes-title {
+    color: white;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.badge-secondary {
+    background-color: #333;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.text-white {
+    color: #ffffff;
+}
+
+.dot {
+    height: 16px;
+    width: 16px;
+    background-color: red;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.btn-date {
+    background-color: #222222;
+    color: #ffffff;
+    border: none;
+    margin-right: 10px;
+}
+
+    .btn-date.active {
+        background-color: #ff4d4d;
+    }
+
+.movie-card {
+    background-color: #222222;
+    border: none;
+    color: #ffffff;
+}
+
+    .movie-card .card-body {
+        padding: 20px;
+        flex: 1;
+    }
+
+
+/* Detail */
+.containerButtons {
+    margin-top: 60px;
+}
+
+.calendar-bar {
+    background-color: #1c1e22;
+    padding: 10px 0;
+}
+
+.calendar-item {
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    width: 80px;
+}
+
+    .calendar-item.active {
+        background-color: #e53935;
+    }
+
+    .calendar-item span {
+        display: block;
+        font-size: 14px;
+    }
+
+    .calendar-item .day-number {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .calendar-item .day-name {
+        font-size: 14px;
+    }
+
+.screen {
+    height: 20px;
+    width: 100%;
+    background: linear-gradient(90deg, #FFA726, #FFCC80);
+    border-radius: 5px;
+}
+
+.seat-type {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    color: #e4e6eb;
+}
+
+.seat-box {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.seat:hover {
+    cursor: pointer;
+}
+
+.seat-container .seat {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Màu xám cho ghế đã đặt */
+.seat-booked {
+    background-color: #3a3b3c !important;
+}
+/* Màu xanh cho ghế bạn chọn */
+.seat-selected {
+    background-color: #3b82f6 !important;
+}
+/* Màu vàng cho ghế đang được giữ */
+.seat-held {
+    background-color: #2bc347 !important;
+}
+/* Màu xám cho ghế thường */
+.seat-regular {
+    background-color: #3a3b3c;
+}
+/* Màu cam cho ghế VIP */
+.seat-vip {
+    background-color: #f97316;
+}
+
+.seat-info {
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+.btn-back {
+    background-color: transparent;
+    border: 1px solid #e4e6eb;
+    color: #e4e6eb;
+    margin-right: 10px;
+    border-radius: 20px;
+    padding: 5px 25px;
+    cursor: pointer;
+}
+
+    .btn-back:hover {
+        color: white;
+    }
+
+.btn-pay {
+    background-color: #f43f5e;
+    opacity: 0.6;
+    color: white;
+    border-radius: 20px;
+    padding: 5px 25px;
+    cursor: pointer;
+}
+
+
+    .btn-pay:hover {
+        transform: scale(1.05);
+        transition: 0.3s ease-in-out;
+        color: white;
+    }

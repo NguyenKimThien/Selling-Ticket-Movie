@@ -1,0 +1,87 @@
+﻿
+.table-container {
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #1E293B;
+    cursor: pointer;
+    border-radius: 34px;
+    transition: background-color 0.3s ease;
+    display: none;
+    width: 100%;
+}
+
+    .table-container.active {
+        color: white;
+        display: block;
+    }
+
+.nav div {
+    cursor: pointer;
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.btn-custom {
+    border-radius: 10px;
+    font-size: 14px;
+    padding: 10px 20px;
+}
+
+    .btn-custom:hover {
+        cursor: pointer;
+        background-color: #1E293B;
+    }
+
+.btn-save {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+    .btn-save:hover {
+        cursor: pointer;
+    }
+
+.btn-secondary-custom {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.form-control {
+    background-color: #020817;
+    color: #fff;
+    border: 1px solid #101620;
+    padding: 10px;
+}
+
+    .form-control:focus {
+        color: white;
+        background-color: black;
+        border: none;
+    }
+
+.nav-pills .nav-link {
+    color: #fff;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+
+    .nav-pills .nav-link.active {
+        background-color: #dc3545;
+    }
+
+.form-control[readonly] {
+    background-color: black;
+    cursor: not-allowed;
+}
+
+    .form-control[readonly]:focus {
+        outline: none;
+        border: none;
+        box-shadow: none;
+    }
+
+ 

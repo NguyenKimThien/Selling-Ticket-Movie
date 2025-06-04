@@ -1,0 +1,119 @@
+﻿@using SellingMovieTickets.Areas.Admin.Models.ViewModels.OrderDetailWithServices
+@using SellingMovieTickets.Models.Enum
+<link href="~/assetsadmin/styles/order_detail.css" rel="stylesheet" />
+@model OrderDetailWithServices
+@{
+    ViewData["Title"] = "Detail Order";
+}
+
+@section naviheader {
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="HomeDashboard" asp-action="Index" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="Order" asp-action="Index" class="nav-link">Hóa đơn</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Chi tiết</a>
+        </li>
+    </ul>
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Chi tiết Hóa đơn</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Hóa đơn</a></li>
+                    <li class="breadcrumb-item active">Chi tiết</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="card-body">
+            <h4>Order Details</h4>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Order Code</th>
+                        <th>Seat Number</th>
+                        <th>Price</th>
+                        <th>Created By</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.orderDetailVM != null && Model.orderDetailVM.Any())
+                    {
+                        var i = 1;
+                        @foreach (var detail in Model.orderDetailVM)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@detail.OrderCode</td>
+                                <td>@detail.SeatNumber</td>
+                                <td>@detail.Price.ToString()VND</td>
+                                <td>@detail.CreateBy</td>
+                                <td>@detail.CreateDate.ToString("dd/MM/yyyy")</td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <h4 class="mt-4">Other Services</h4>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Service Name</th>
+                        <th>Quantity</th>
+                        <th>Total Amount</th>
+                        <th>Created By</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.otherServicesOrderVM != null && Model.otherServicesOrderVM.Any())
+                    {
+                        var i = 1;
+                        @foreach (var service in Model.otherServicesOrderVM)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@service.OtherServices.Name</td>
+                                <td>@service.Quantity</td>
+                                <td>@service.TotalAmount.ToString()VND</td>
+                                <td>@service.CreateBy</td>
+                                <td>@service.CreateDate.ToString("dd/MM/yyyy")</td>
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        toastr.error('@TempData["Error"]');
+    </script>
+}
+

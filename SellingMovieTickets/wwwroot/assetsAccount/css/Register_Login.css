@@ -1,0 +1,117 @@
+﻿/* Styling for the login form container */
+.login-form {
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    margin: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+    /* Styling for the form title */
+    .login-form h2 {
+        color: white;
+        font-size: 24px;
+        text-align: left;
+        margin-bottom: 20px;
+    }
+
+    /* Styling for the input fields */
+    .login-form .input-group-outline {
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .login-form label {
+        width: 100px;
+        font-weight: bold;
+        margin-right: 10px;
+        text-align: left;
+    }
+
+    .login-form input[type="text"],
+    .login-form input[type="email"],
+    .login-form input[type="password"] {
+        flex-grow: 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+        .login-form input[type="text"]:focus,
+        .login-form input[type="email"]:focus,
+        .login-form input[type="password"]:focus {
+            border-color: #5a67d8;
+            outline: none;
+        }
+
+    /* Styling for the Create button */
+    .login-form .btn {
+        width: 100%;
+        padding: 10px;
+        background-image: linear-gradient(210deg, #fe6969, #e30713);
+        color: #fff;
+        border: none;
+        border-radius: 10px !important;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .login-form .btn:hover {
+            background-color: #434190;
+        }
+
+    /* Styling for the error messages */
+    .login-form .text-danger {
+        color: #e53e3e;
+        font-size: 14px;
+    }
+
+    /* Styling for the link */
+    .login-form a {
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+.forgot-password {
+    color: rgb(239 68 68) !important;
+    text-decoration: none !important;
+    font-size: 14px !important;
+    text-align: right !important;
+}
+
+.register-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.register-highlight {
+    color: #EF4444;
+    font-weight: bold;
+}
+
+.form-control {
+    border-radius: 6px !important;
+}
+
+.box_optionRegister {
+    display: flex;
+    justify-content: center;
+    color: white;
+    align-items: baseline;
+    margin-top: 12px;
+}
+
+.optionRegisterItem {
+    color: #ff4b2b;
+    text-decoration: none;
+    margin-left: 4px;
+}

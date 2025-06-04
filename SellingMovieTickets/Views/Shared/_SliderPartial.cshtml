@@ -1,0 +1,58 @@
+﻿@using SellingMovieTickets.Models.Entities
+@model IEnumerable<AdvModel>
+
+<style>
+    .carousel-item img {
+        width: 100vw;
+        height: auto;
+        max-height: 100vh;
+        object-fit: cover;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 34px;
+        height: 34px;
+        margin: 20px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        top: 50%;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-size: 50%;
+        filter: invert(1);
+    }
+
+</style>
+
+@if (Model != null && Model.Any())
+{
+    <div id="sliderCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-inner">
+            <div class="carousel-indicators">
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    <button type="button" data-bs-target="#sliderCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="@(i == 0 ? "true" : "false")"></button>
+                }
+            </div>
+
+            <div class="carousel-inner">
+                @foreach (var item in Model)
+                {
+                    <div class="carousel-item @(Model.First() == item ? "active" : "")">
+                        <img src="@item.Image" class="d-block w-100" alt="@item.Title" style="width: 100vw; height: auto; max-height: 100vh; object-fit: cover;">
+                    </div>
+                }
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#sliderCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#sliderCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+}

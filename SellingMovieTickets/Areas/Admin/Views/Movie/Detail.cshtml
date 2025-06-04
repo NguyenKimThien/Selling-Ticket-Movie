@@ -1,0 +1,169 @@
+﻿@using SellingMovieTickets.Areas.Admin.Models.ViewModels.Movie
+@using SellingMovieTickets.Models.Enum
+<link href="~/assetsadmin/styles/image_index.css" rel="stylesheet" />
+@model MovieViewModel
+@{
+    ViewData["Title"] = "Datail Movie";
+}
+
+@section naviheader {
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="HomeDashboard" asp-action="Index" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="Movie" asp-action="Index" class="nav-link">Phim</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Chi tiết</a>
+        </li>
+    </ul>
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Chi tiết phim</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Phim</a></li>
+                    <li class="breadcrumb-item active">Chi tiết</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thông tin phim</h3>
+            <div class="card-body">
+                <form asp-action="Detail" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
+                        <div class="form-group">
+                            <label></label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label for="Name">Tên phim</label>
+                                <input asp-for="Name" readonly class="form-control" placeholder="Tên phim" title="Name" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="Description">Mô tả phim</label>
+                                <textarea asp-for="Description" readonly class="form-control" placeholder="Mô tả phim" title="Mô tả phim"></textarea>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="StartDate">Chọn ngày phát hành</label>
+                                <input asp-for="ReleaseDate" type="date" id="selectedDateDisplay" class="form-control" readonly placeholder="Ngày đã chọn" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label for="Duration">Thời lượng</label>
+                                <input asp-for="Duration" readonly class="form-control" placeholder="Thời lượng" title="Duration" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="Genres">Chọn thể loại</label>
+                                <input asp-for="Genres" readonly class="form-control" placeholder="Thể loại" title="Genres" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="MovieLanguageFormat">Chọn định dạng ngôn ngữ phim</label>
+                                <input asp-for="MovieLanguageFormat" readonly class="form-control" placeholder="Định dạng ngôn ngữ" title="MovieLanguageFormat" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label for="MovieFormat">Chọn định dạng phim</label>
+                                <input asp-for="MovieFormat" readonly class="form-control" placeholder="Định dạng phim" title="MovieFormat" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="StatusMovie">Chọn trạng thái phim</label>
+                                <input asp-for="StatusMovie" readonly class="form-control" placeholder="Trạng thái" title="StatusMovie" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="Origin">Xuất xứ</label>
+                                <input asp-for="Origin" readonly class="form-control" placeholder="Xuất xứ" title="Origin" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label for="Price">Giá vé</label>
+                                <input asp-for="Price" type="text" readonly class="auto form-control" data-a-dec="," data-a-sep="." placeholder="Giá" title="Price" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="Director">Tên Đạo diễn</label>
+                                <input asp-for="Director" readonly class="form-control" placeholder="Tên đạo diễn" title="Director" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="Actor">Tên các Diễn viên</label>
+                                <input asp-for="Actor" readonly class="form-control" placeholder="Tên diễn viên" title="Actor" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label for="TrailerUrl">Link Trailer</label>
+                                <input asp-for="TrailerUrl" readonly class="form-control" placeholder="Đường dẫn Trailer" title="TrailerUrl" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="ImageUpload">Hình ảnh</label>
+                                <img asp-for="Image" id="imageFirst" src="@Model.Image" class="style_imageAdmin style_imageAdDetail">
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="Status">Status</label>
+                                <input type="text"
+                                       readonly
+                                       class="form-control"
+                                       title="Status"
+                                       value="@(Model.Status == Status.Show ? "Hiển thị" : "Ẩn")"
+                                       placeholder="Trạng thái" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label for="IsOutstanding">Nổi bật</label>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" disabled asp-for="IsOutstanding" class="custom-control-input" id="IsOutstandingCheckbox" />
+                                    <label class="custom-control-label" for="IsOutstandingCheckbox"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="CreateBy">Người tạo</label>
+                                <input asp-for="CreateBy" readonly class="form-control" placeholder="Người tạo" title="CreateBy" />
+                            </div>
+                            <div class="col-md-4 form-group">
+                                <label for="CreateDate">Ngày tạo</label>
+                                <input asp-for="CreateDate" type="date" readonly class="form-control" placeholder="Ngày tạo" title="CreateDate" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a asp-action="Index" class="btn btn-danger">Quay lại</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $("#ImageUpload").change(function () {
+        $("#imageFirst").hide();
+        readURL(this);
+    })
+</script>
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        toastr.error('@TempData["Error"]');
+    </script>
+}
+

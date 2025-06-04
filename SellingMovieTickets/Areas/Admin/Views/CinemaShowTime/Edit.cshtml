@@ -1,0 +1,103 @@
+﻿@using SellingMovieTickets.Areas.Admin.Models.ViewModels.CinemaShowTime
+ @model UpdateCinemaShowTime
+@{
+    ViewData["Title"] = "Update CinemaShowTime";
+}
+
+@section naviheader {
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="HomeDashboard" asp-action="Index" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a asp-controller="CinemaShowTime" asp-action="Index" class="nav-link">Suất chiếu</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Cập nhật</a>
+        </li>
+    </ul>
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Cập nhật suất chiếu</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Suất chiếu</a></li>
+                    <li class="breadcrumb-item active">Cập nhật</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thông tin suất chiếu</h3>
+            <div class="card-body">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="bs-stepper-content">
+                        <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
+                            <div class="form-group">
+                                <label></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="StartDate">Chọn thời gian chiếu</label>
+                                <div class="d-flex">
+                                    <input asp-for="StartShowTime" type="text" id="selectedDateDisplay" class="form-control" placeholder="Ngày giờ đã chọn" readonly style="margin-left: 10px;" />
+                                    <input asp-for="StartShowTime" type="datetime-local" id="datePicker" class="form-control" style="display: inline-block; width: 48px;" />
+                                </div>
+                                <span asp-validation-for="StartShowTime" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="SelectedMovieId">Chọn phim</label>
+                                <select asp-for="SelectedMovieId" asp-items="Model.MovieIds" class="form-control">
+                                    <option value="">--Chọn phim--</option>
+                                </select>
+                                <span asp-validation-for="SelectedMovieId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <a asp-action="Index" class="btn btn-danger">Quay lại</a>
+                                <button class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#datePicker').change(function () {
+                var selectedDateTime = this.value;
+                if (selectedDateTime) {
+                    var dateTimeParts = selectedDateTime.split("T");
+                    var dateParts = dateTimeParts[0].split("-");
+                    var timeParts = dateTimeParts[1].split(":");
+
+                    var formattedDateTime = dateParts[2] + "/" + dateParts[1] + "/" + dateParts[0] + " " + timeParts[0] + ":" + timeParts[1];
+                    $('#selectedDateDisplay').val(formattedDateTime);
+                }
+            });
+        });
+    </script>
+}
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        toastr.error('@TempData["Error"]');
+    </script>
+}
+

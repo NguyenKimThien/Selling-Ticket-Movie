@@ -1,0 +1,37 @@
+﻿/* Đặt kích thước khung của ảnh */
+.product_imageArrival {
+    width: 100%; /* Chiếm hết chiều rộng của khung sản phẩm */
+    height: 250px; /* Chiều cao cố định cho khung ảnh */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Đảm bảo khung không bị tràn */
+}
+
+/* Điều chỉnh hình ảnh để hiển thị rõ ràng */
+.product-image-fixed {
+    width: 100%; /* Chiều rộng của ảnh sẽ tự động điều chỉnh */
+    height: auto; /* Chiều cao tự động để giữ tỷ lệ ảnh */
+    object-fit: cover !important; /* Đảm bảo ảnh phủ hết khung mà không bị méo */
+}
+
+/* Điều chỉnh khung và ảnh trên các màn hình nhỏ hơn */
+@media (max-width: 768px) {
+    .product_imageArrival {
+        height: 200px; /* Giảm chiều cao khung trên màn hình nhỏ hơn */
+    }
+
+    .product-image-fixed {
+        height: auto; /* Đảm bảo ảnh không bị kéo dãn */
+    }
+}
+
+@media (max-width: 576px) {
+    .product_imageArrival {
+        height: 150px; /* Chiều cao khung nhỏ hơn trên màn hình rất nhỏ */
+    }
+
+    .product-image-fixed {
+        height: auto; /* Đảm bảo ảnh không bị kéo dãn */
+    }
+}
